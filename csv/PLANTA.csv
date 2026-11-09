@@ -1,0 +1,9 @@
+id_planta,id_especie,id_ubicacion,apodo,fecha_registro,estado
+1,1,1,Costilla,2026-08-15,Activa
+2,2,2,Roseta,2026-09-10,Activa
+3,3,1,Enredadera,2026-07-03,Activa
+4,4,4,Paz,2026-10-12,En observacion
+5,5,3,Aroma,2026-10-02,Activa
+6,6,4,Espada,2026-06-20,Activa
+7,1,5,Monstera joven,2026-11-01,Activa
+8,3,1,Pothos pequeno,2026-11-05,Activa

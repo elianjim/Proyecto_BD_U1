@@ -1,0 +1,6 @@
+id_tipo_cuidado,nombre_cuidado,descripcion
+1,Riego,Aplicacion de agua segun necesidad
+2,Poda,Retiro de hojas o ramas deterioradas
+3,Fertilizacion,Aplicacion de nutrientes
+4,Cambio de maceta,Traslado a nuevo recipiente
+5,Limpieza de hojas,Retiro de polvo en las hojas

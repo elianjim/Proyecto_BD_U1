@@ -1,0 +1,6 @@
+id_ubicacion,nombre_lugar,condiciones_luz,humedad
+1,Sala,Luz indirecta,Media
+2,Balcon,Luz directa,Baja
+3,Terraza,Luz directa,Media
+4,Dormitorio,Sombra parcial,Media
+5,Patio,Luz directa,Alta
