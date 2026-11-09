@@ -1,62 +1,63 @@
-CREATE DATABASE ProyectoU1_db;
-USE ProyectoU1_db;
+CREATE DATABASE greenthumb_hub 
+USE greenthumb_hub;
 
--- 1. Tabla Categoría
-CREATE TABLE CATEGORIA (
-    id_categoria INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(255),
-    tipo_comercio VARCHAR(50),
-    PRIMARY KEY (id_categoria)
+CREATE TABLE ESPECIE (
+  id_especie INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_comun VARCHAR(80) NOT NULL,
+  nombre_cientifico VARCHAR(120),
+  frecuencia_riego_dias INT NOT NULL,
+  luz_requerida VARCHAR(40) NOT NULL,
+  CONSTRAINT chk_frecuencia CHECK (frecuencia_riego_dias > 0)
 );
 
--- 2. Tabla Cantón
-CREATE TABLE CANTON (
-    id_canton INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    zona_provincial VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_canton)
+CREATE TABLE UBICACION (
+  id_ubicacion INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_lugar VARCHAR(80) NOT NULL UNIQUE,
+  condiciones_luz VARCHAR(40) NOT NULL,
+  humedad VARCHAR(30) NOT NULL DEFAULT 'Media'
 );
 
--- 3. Tabla Sector
-CREATE TABLE SECTOR (
-    id_sector INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    tipo_clima VARCHAR(50) NOT NULL,
-    id_canton INT NOT NULL,
-    PRIMARY KEY (id_sector),
-    FOREIGN KEY (id_canton) REFERENCES CANTON(id_canton)
+CREATE TABLE TIPO_CUIDADO (
+  id_tipo_cuidado INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_cuidado VARCHAR(80) NOT NULL UNIQUE,
+  descripcion VARCHAR(255)
 );
 
--- 4. Tabla Producto
-CREATE TABLE PRODUCTO (
-    id_producto INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    variedad VARCHAR(100),
-    id_categoria INT NOT NULL,
-    PRIMARY KEY (id_producto),
-    FOREIGN KEY (id_categoria) REFERENCES CATEGORIA(id_categoria)
+CREATE TABLE PLANTA (
+  id_planta INT AUTO_INCREMENT PRIMARY KEY,
+  id_especie INT NOT NULL,
+  id_ubicacion INT NOT NULL,
+  apodo VARCHAR(100) NOT NULL,
+  fecha_registro DATE NOT NULL,
+  estado VARCHAR(20) NOT NULL DEFAULT 'Activa',
+  CONSTRAINT chk_estado CHECK (estado IN ('Activa','En observacion','Inactiva')),
+  CONSTRAINT fk_planta_especie FOREIGN KEY (id_especie)
+    REFERENCES ESPECIE(id_especie),
+  CONSTRAINT fk_planta_ubicacion FOREIGN KEY (id_ubicacion)
+    REFERENCES UBICACION(id_ubicacion)
 );
 
--- 5. Tabla Meses_Cosecha
-CREATE TABLE MES_COSECHA (
-    id_producto INT NOT NULL,
-    mes VARCHAR(20) NOT NULL,
-    PRIMARY KEY (id_producto, mes),
-    FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+CREATE TABLE HISTORIAL_CUIDADO (
+  id_historial INT AUTO_INCREMENT PRIMARY KEY,
+  id_planta INT NOT NULL,
+  id_tipo_cuidado INT NOT NULL,
+  fecha_realizacion DATE NOT NULL,
+  observaciones VARCHAR(255),
+  CONSTRAINT fk_hist_planta FOREIGN KEY (id_planta)
+    REFERENCES PLANTA(id_planta),
+  CONSTRAINT fk_hist_tipo FOREIGN KEY (id_tipo_cuidado)
+    REFERENCES TIPO_CUIDADO(id_tipo_cuidado)
 );
 
--- 6. Tabla Registro_Produccion
-CREATE TABLE REGISTRO_PRODUCCION (
-    id_registro INT NOT NULL AUTO_INCREMENT,
-    fecha_registro DATE NOT NULL,
-    cantidad_produccion DECIMAL(10,2) NOT NULL,
-    nivel_abundancia VARCHAR(50),
-    precio_promedio DECIMAL(10,2),
-    ciclo_agricola VARCHAR(50),
-    id_producto INT NOT NULL,
-    id_sector INT NOT NULL,
-    PRIMARY KEY (id_registro),
-    FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto),
-    FOREIGN KEY (id_sector) REFERENCES SECTOR(id_sector)
+CREATE TABLE PROGRAMACION_CUIDADO (
+  id_planta INT NOT NULL,
+  id_tipo_cuidado INT NOT NULL,
+  intervalo_dias INT NOT NULL,
+  fecha_proxima DATE NOT NULL,
+  PRIMARY KEY (id_planta, id_tipo_cuidado),
+  CONSTRAINT chk_intervalo CHECK (intervalo_dias > 0),
+  CONSTRAINT fk_prog_planta FOREIGN KEY (id_planta)
+    REFERENCES PLANTA(id_planta),
+  CONSTRAINT fk_prog_tipo FOREIGN KEY (id_tipo_cuidado)
+    REFERENCES TIPO_CUIDADO(id_tipo_cuidado)
 );
