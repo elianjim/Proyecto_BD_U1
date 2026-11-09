@@ -1,54 +1,61 @@
-USE ProyectoU1_db;
+USE greenthumb_hub;
 
-INSERT INTO CATEGORIA (id_categoria, nombre, descripcion, tipo_comercio) VALUES
-(1, 'Cereales', 'Granos secos como maiz y arroz', 'Consumo Interno'),
-(2, 'Cultivos Industriales', 'Productos para procesamiento como el cafe', 'Exportacion'),
-(3, 'Hortalizas', 'Vegetales de ciclo corto', 'Consumo Interno'),
-(4, 'Leguminosas', 'Granos en vaina como mani y frejol', 'Mixto'),
-(5, 'Frutas Tropicales', 'Frutas de zonas calidas', 'Consumo Interno');
+INSERT INTO ESPECIE (nombre_comun, nombre_cientifico, frecuencia_riego_dias, luz_requerida) VALUES
+('Monstera','Monstera deliciosa',7,'Luz indirecta'),
+('Suculenta','Echeveria elegans',14,'Luz directa'),
+('Pothos','Epipremnum aureum',6,'Luz indirecta'),
+('Lirio de paz','Spathiphyllum wallisii',5,'Sombra parcial'),
+('Albahaca','Ocimum basilicum',2,'Luz directa'),
+('Lengua de suegra','Dracaena trifasciata',12,'Luz indirecta');
 
--- 2. Inserción en CANTON
-INSERT INTO CANTON (id_canton, nombre, zona_provincial) VALUES
-(1, 'Zapotillo', 'Fronteriza Sur'),
-(2, 'Macara', 'Fronteriza Sur'),
-(3, 'Puyango', 'Occidente'),
-(4, 'Catamayo', 'Centro-Norte'),
-(5, 'Loja', 'Centro');
+INSERT INTO UBICACION (nombre_lugar, condiciones_luz, humedad) VALUES
+('Sala','Luz indirecta','Media'),
+('Balcon','Luz directa','Baja'),
+('Terraza','Luz directa','Media'),
+('Dormitorio','Sombra parcial','Media'),
+('Patio','Luz directa','Alta');
 
--- 3. Inserción en SECTOR
-INSERT INTO SECTOR (id_sector, nombre, tipo_clima, id_canton) VALUES
-(1, 'Garza Real', 'Calido Seco', 1),
-(2, 'Sabiango', 'Calido', 2),
-(3, 'Alamor', 'Templado', 3),
-(4, 'Valle de Casanga', 'Calido Seco', 4),
-(5, 'Vilcabamba', 'Templado', 5);
+INSERT INTO TIPO_CUIDADO (nombre_cuidado, descripcion) VALUES
+('Riego','Aplicacion de agua segun necesidad'),
+('Poda','Retiro de hojas o ramas deterioradas'),
+('Fertilizacion','Aplicacion de nutrientes'),
+('Cambio de maceta','Traslado a nuevo recipiente'),
+('Limpieza de hojas','Retiro de polvo en las hojas');
 
--- 4. Inserción en PRODUCTO
-INSERT INTO PRODUCTO (id_producto, nombre, variedad, id_categoria) VALUES
-(1, 'Maiz Duro', 'Amarillo Hibrido', 1),
-(2, 'Arroz', 'Oryza sativa L.', 1),
-(3, 'Cafe', 'Arabigo de Altura', 2),
-(4, 'Cebolla Roja', 'Criolla', 3),
-(5, 'Mani', 'Charapoto', 4);
+INSERT INTO PLANTA (id_especie,id_ubicacion,apodo,fecha_registro,estado) VALUES
+(1,1,'Costilla','2026-08-15','Activa'),
+(2,2,'Roseta','2026-09-10','Activa'),
+(3,1,'Enredadera','2026-07-03','Activa'),
+(4,4,'Paz','2026-10-12','En observacion'),
+(5,3,'Aroma','2026-10-02','Activa'),
+(6,4,'Espada','2026-06-20','Activa'),
+(1,5,'Monstera joven','2026-11-01','Activa'),
+(3,1,'Pothos pequeno','2026-11-05','Activa');
 
--- 5. Inserción en MES_COSECHA
-INSERT INTO MES_COSECHA (id_producto, mes) VALUES
-(1, 'Mayo'),
-(1, 'Junio'),
-(2, 'Agosto'),
-(2, 'Septiembre'),
-(3, 'Agosto'),
-(3, 'Septiembre'),
-(4, 'Marzo'),
-(4, 'Abril'),
-(5, 'Julio'),
-(5, 'Agosto');
+INSERT INTO HISTORIAL_CUIDADO (id_planta,id_tipo_cuidado,fecha_realizacion,observaciones) VALUES
+(1,1,'2026-11-03','Riego moderado'),
+(1,3,'2026-10-20','Abono organico'),
+(2,1,'2026-11-01','Sustrato humedecido'),
+(3,1,'2026-11-05','Riego ligero'),
+(3,3,'2026-11-02','Fertilizacion mensual'),
+(4,1,'2026-11-06','Riego por sequedad del suelo'),
+(4,5,'2026-11-02','Limpieza manual'),
+(5,1,'2026-11-08','Riego por la manana'),
+(5,2,'2026-11-04','Poda de hojas'),
+(6,4,'2026-11-01','Se utilizo una maceta mayor'),
+(2,3,'2026-10-25','Dosis reducida'),
+(1,5,'2026-11-07','Hojas sin polvo');
 
--- 6. Inserción en REGISTRO_PRODUCCION
-INSERT INTO REGISTRO_PRODUCCION (id_registro, fecha_registro, cantidad_produccion, nivel_abundancia, precio_promedio, ciclo_agricola, id_producto, id_sector) VALUES
-(1, '2024-05-15', 4500.00, 'Alto', 320.00, 'Cosecha Invierno', 1, 1),
-(2, '2024-06-10', 2100.50, 'Alto', 800.00, 'Cosecha Verano', 2, 2),
-(3, '2024-08-22', 150.00, 'Medio', 4500.00, 'Recoleccion', 3, 3),
-(4, '2024-03-30', 850.00, 'Alto', 600.00, 'Cosecha Continua', 4, 4),
-(5, '2024-07-05', 340.00, 'Medio', 1200.00, 'Cosecha Verano', 5, 1),
-(6, '2024-01-20', 0.00, 'Escaso', 0.00, 'Siembra', 1, 4);
+INSERT INTO PROGRAMACION_CUIDADO (id_planta,id_tipo_cuidado,intervalo_dias,fecha_proxima) VALUES
+(1,1,7,'2026-11-10'),
+(1,3,30,'2026-11-19'),
+(2,1,14,'2026-11-15'),
+(3,1,6,'2026-11-11'),
+(3,3,30,'2026-12-02'),
+(4,1,5,'2026-11-11'),
+(5,1,2,'2026-11-10'),
+(5,2,21,'2026-11-25'),
+(6,1,12,'2026-11-13'),
+(7,1,7,'2026-11-14'),
+(8,1,6,'2026-11-12');
+
