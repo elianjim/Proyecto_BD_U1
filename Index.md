@@ -35,9 +35,9 @@ Modelar bases de datos de problemas reales, bajo los principios de solidaridad, 
 
 ---
 
-## 1. Título
 
-**GreenThumb Hub: Sistema de Control de Plantas, Riego y Cuidados Domésticos**
+
+# **GreenThumb Hub: Sistema de Control de Plantas, Riego y Cuidados Domésticos**
 
 ## 2. Contexto del problema
 
