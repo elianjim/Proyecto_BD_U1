@@ -237,14 +237,20 @@ INSERT INTO PLANTA (id_especie,id_ubicacion,apodo,fecha_registro,estado) VALUES
 **Álgebra Relacional:**
 
 ```text
-σ estado=="En observacion" (planta)
+σ estado=="Activa" and id_ubicacion==1 and frecuencia_riego_dias<=7 (PLANTA ⋈ ESPECIE)
 ```
 
 **Consulta SQL:**
 
 ```sql
 
-SELECT * FROM PLANTA WHERE estado = 'En observación';
+SELECT *
+FROM PLANTA p
+JOIN ESPECIE e ON p.id_especie = e.id_especie
+WHERE p.estado = 'Activa'
+  AND p.id_ubicacion = 1
+  AND e.frecuencia_riego_dias <= 7;
+
 
 ```
 
